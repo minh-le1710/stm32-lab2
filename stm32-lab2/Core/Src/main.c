@@ -191,6 +191,28 @@ void update7SEG (int index)
 		break;
 	}
 }
+int hour = 15;
+int minutes = 8;
+int second = 50;
+void updateClockBuffer()
+{
+	if(hour < 10){
+		led_buffer[0] = 0;
+		led_buffer[1] = hour;
+	}
+	if(hour >= 10){
+		led_buffer[0] = hour/10;
+		led_buffer[1] = hour%10;
+	}
+	if(minutes < 10){
+		led_buffer[2] = 0;
+		led_buffer[3] = minutes;
+	}
+	if(minutes >= 10){
+		led_buffer[2] = minutes/10;
+		led_buffer[3] = minutes%10;
+	}
+}
 /* USER CODE END 0 */
 
 /**
@@ -228,11 +250,29 @@ HAL_TIM_Base_Start_IT(&htim2);
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+
   while (1)
   {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	  second ++;
+	  if (second >= 60)
+	  {
+		  second = 0;
+	  	  minutes++;
+	  }
+	  if(minutes >= 60)
+	  {
+		  minutes = 0;
+	  	  hour++;
+	  }
+	  if(hour >= 24)
+	  {
+		  hour = 0;
+	  }
+	  updateClockBuffer();
+	  HAL_Delay(1000);
   }
   /* USER CODE END 3 */
 }
