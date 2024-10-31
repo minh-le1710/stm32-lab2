@@ -254,6 +254,7 @@ HAL_TIM_Base_Start_IT(&htim2);
 hour = 15;
 minutes = 8;
 second = 50;
+setTimer1(250);
 setTimer0(1000);
 setTimer2(1000);
   while (1)
@@ -286,6 +287,11 @@ setTimer2(1000);
 	  updateClockBuffer();
 	  setTimer0(1000);
   }
+	  if(timer_flag1 == 1){
+		    update7SEG(index_led++);
+		    if(index_led == MAX_LED) index_led = 0;
+		    setTimer1(250);
+	  }
   /* USER CODE END 3 */
 }
 }
@@ -416,12 +422,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
  {
 		timerRun();
 
-	    counter_7seg--;
-	    if (counter_7seg <= 0){
-	    	counter_7seg = 25;
-	    	update7SEG(index_led++);
-	  }
-	    if(index_led == MAX_LED) index_led = 0;
  }
 /* USER CODE END 4 */
 
