@@ -19,6 +19,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "Software_timer.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -191,9 +192,9 @@ void update7SEG (int index)
 		break;
 	}
 }
-int hour = 15;
-int minutes = 8;
-int second = 50;
+int hour;
+int minutes;
+int second;
 void updateClockBuffer()
 {
 	if(hour < 10){
@@ -250,12 +251,23 @@ HAL_TIM_Base_Start_IT(&htim2);
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-
+hour = 15;
+minutes = 8;
+second = 50;
+setTimer0(1000);
+setTimer2(1000);
   while (1)
   {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+
+	  if(timer_flag2 == 1){
+		  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+		  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_4);
+		  setTimer2(1000);
+	  }
+	  if(timer_flag0 == 1){
 	  second ++;
 	  if (second >= 60)
 	  {
@@ -272,11 +284,11 @@ HAL_TIM_Base_Start_IT(&htim2);
 		  hour = 0;
 	  }
 	  updateClockBuffer();
-	  HAL_Delay(1000);
+	  setTimer0(1000);
   }
   /* USER CODE END 3 */
 }
-
+}
 /**
   * @brief System Clock Configuration
   * @retval None
@@ -400,23 +412,17 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 int counter_7seg = 25;
-int counter_led_red = 100;
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
-{
-		counter_led_red--;
-    if (counter_led_red <= 0){
-    	counter_led_red = 100;
-    	HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-    	HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_4);
-    }
+ {
+		timerRun();
 
-    counter_7seg--;
-    if (counter_7seg <= 0){
-    	counter_7seg = 25;
-    	update7SEG(index_led++);
-  }
-    if(index_led == MAX_LED) index_led = 0;
-}
+	    counter_7seg--;
+	    if (counter_7seg <= 0){
+	    	counter_7seg = 25;
+	    	update7SEG(index_led++);
+	  }
+	    if(index_led == MAX_LED) index_led = 0;
+ }
 /* USER CODE END 4 */
 
 /**
