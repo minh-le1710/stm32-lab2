@@ -252,7 +252,7 @@ HAL_TIM_Base_Start_IT(&htim2);
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 hour = 15;
-minutes = 20;
+minutes = 8;
 second = 50;
 setTimer1(250);
 setTimer0(1000);
