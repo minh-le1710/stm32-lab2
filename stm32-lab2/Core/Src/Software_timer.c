@@ -9,51 +9,39 @@
 #include "Software_timer.h"
 
 
-int TICK = 10;
+int TIMER_CYCLE = 10;
 
-int timer_flag0 = 0;
-int timer_counter0 = 0;
-
-int timer_flag1 = 0;
-int timer_counter1 = 0;
-
-int timer_flag2 = 0;
-int timer_counter2 = 0;
-
-void setTimer0(int duration){
-	timer_flag0 = 0;
-	timer_counter0 = duration / TICK;
+int timer1_flag = 0;
+int timer1_counter = 0;
+void setTimer1(int duration) {
+  timer1_counter = duration / TIMER_CYCLE;
+  timer1_flag = 0;
 }
 
-void setTimer1(int duration){
-	timer_flag1 = 0;
-	timer_counter1 = duration / TICK;
+int timer2_flag = 0;
+int timer2_counter = 0;
+void setTimer2(int duration) {
+  timer2_counter = duration / TIMER_CYCLE;
+  timer2_flag = 0;
 }
 
-void setTimer2(int duration){
-	timer_flag2 = 0;
-	timer_counter2 = duration / TICK;
+int timer3_flag = 0;
+int timer3_counter = 0;
+void setTimer3(int duration) {
+  timer3_counter = duration / TIMER_CYCLE;
+  timer3_flag = 0;
 }
-
-void timerRun(){
-		if(timer_counter0 > 0){
-			timer_counter0--;
-		if(timer_counter0 <= 0){
-			timer_flag0 = 1;
-			}
-		}
-
-		if(timer_counter1 > 0){
-			timer_counter1--;
-		if(timer_counter1 <= 0){
-			timer_flag1 = 1;
-			}
-		}
-
-		if(timer_counter2 > 0){
-			timer_counter2--;
-		if(timer_counter2 <= 0){
-			timer_flag2 = 1;
-			}
-		}
+void timer_run(){
+	if(timer1_counter > 0){
+		timer1_counter--;
+		if(timer1_counter == 0) timer1_flag = 1;
+	}
+	if(timer2_counter > 0){
+		timer2_counter--;
+		if(timer2_counter == 0) timer2_flag = 1;
+	}
+	if(timer3_counter > 0){
+		timer3_counter--;
+		if(timer3_counter == 0) timer3_flag = 1;
+	}
 }
